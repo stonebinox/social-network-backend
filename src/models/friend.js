@@ -62,7 +62,7 @@ export default class Friend extends Base {
   async acceptFriendRequest(id) {
     const connection = await this.getConnection();
     await connection.query(
-      `UPDATE friends SET status = '2' WHERE id = '${id}'`
+      `UPDATE friends SET status = '2', updated_at = NOW() WHERE id = '${id}'`
     );
 
     return true;
@@ -77,7 +77,7 @@ export default class Friend extends Base {
   async rejectFriendRequest(id) {
     const connection = await this.getConnection();
     await connection.query(
-      `UPDATE friends SET status = '0' WHERE id = '${id}'`
+      `UPDATE friends SET status = '0', updated_at = NOW() WHERE id = '${id}'`
     );
 
     return true;
