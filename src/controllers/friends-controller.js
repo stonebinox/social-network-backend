@@ -4,7 +4,7 @@ import User from "../models/user";
 export default class FriendsController {
   async sendRequest(req, res) {
     const {
-      query: { userId, friendId },
+      query: { user_id: userId, friend_id: friendId },
     } = req;
 
     if (!userId || !friendId) {

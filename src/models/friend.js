@@ -1,3 +1,5 @@
+import Base from "./base";
+
 export default class Friend extends Base {
   /**
    * Sends a friend request
@@ -10,7 +12,7 @@ export default class Friend extends Base {
     const connection = await this.getConnection();
 
     await connection.query(
-      `INSERT INTO friends (user_id, friend_id, created_at) VALUES (${userId}', '${friendId}', NOW())`
+      `INSERT INTO friends (user_id, friend_id, created_at) VALUES ('${userId}', '${friendId}', NOW())`
     );
 
     return;
