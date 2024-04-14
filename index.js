@@ -12,6 +12,8 @@ app.post("/user", userController.createOrlogin.bind(userController));
 app.get("/users", userController.getUsers.bind(userController));
 app.get("/user", userController.getUser.bind(userController));
 
+app.post("/friend");
+
 app.listen(port, () => {
   console.log(`server running at http://localhost:${port}`);
 });

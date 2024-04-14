@@ -36,4 +36,24 @@ export default class User extends Base {
 
     return response;
   }
+
+  /**
+   * Gets user by user ID
+   *
+   * @param {number} id
+   * @returns {User}
+   */
+  async getUserById(id) {
+    if (!id) return null;
+
+    const connection = await this.getConnection();
+
+    const [response] = await connection.query(
+      `SELECT * FROM users WHERE id = '${id}'`
+    );
+
+    if (response.length === 0) return null;
+
+    return response[0];
+  }
 }
