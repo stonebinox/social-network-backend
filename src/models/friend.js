@@ -4,8 +4,8 @@ export default class Friend extends Base {
   /**
    * Sends a friend request
    *
-   * @param {number} userId
-   * @param {number} friendId
+   * @param {number} userId The logged in user
+   * @param {number} friendId The potential friend
    * @returns
    */
   async sendRequest(userId, friendId) {
@@ -21,8 +21,8 @@ export default class Friend extends Base {
   /**
    * Gets an existing friend request based on user IDs
    *
-   * @param {number} userId
-   * @param {number} friendId
+   * @param {number} userId The currently logged in user
+   * @param {number} friendId The potential friend
    * @returns {number | null}
    */
   async getRequestByUserIds(userId, friendId) {
@@ -34,5 +34,52 @@ export default class Friend extends Base {
     if (response.length === 0) return null;
 
     return response;
+  }
+
+  /**
+   * Gets an active request by ID
+   *
+   * @param {number} id
+   * @returns {Friend}
+   */
+  async getRequestById(id) {
+    const connection = await this.getConnection();
+    const [response] = await connection.query(
+      `SELECT * FROM friends WHERE id = '${id}' AND status = '1'`
+    );
+
+    if (response.length === 0) return null;
+
+    return response;
+  }
+
+  /**
+   * Accepts a friend request by friend request ID
+   *
+   * @param {number} id The request ID
+   * @returns
+   */
+  async acceptFriendRequest(id) {
+    const connection = await this.getConnection();
+    await connection.query(
+      `UPDATE friends SET status = '2' WHERE id = '${id}'`
+    );
+
+    return true;
+  }
+
+  /**
+   * Rejects a friend request by friend request ID
+   *
+   * @param {number} id The request ID
+   * @returns
+   */
+  async rejectFriendRequest(id) {
+    const connection = await this.getConnection();
+    await connection.query(
+      `UPDATE friends SET status = '0' WHERE id = '${id}'`
+    );
+
+    return true;
   }
 }

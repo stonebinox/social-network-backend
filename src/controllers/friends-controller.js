@@ -2,6 +2,13 @@ import Friend from "../models/friend";
 import User from "../models/user";
 
 export default class FriendsController {
+  /**
+   * Handles sending a friend request
+   *
+   * @param {Request} req
+   * @param {Response} res
+   * @returns {Response}
+   */
   async sendRequest(req, res) {
     const {
       query: { user_id: userId, friend_id: friendId },
@@ -49,6 +56,66 @@ export default class FriendsController {
     return res.status(400).send({
       success: false,
       error: "Request pending confirmation",
+    });
+  }
+
+  /**
+   * Handles accepting a friend request
+   *
+   * @param {Request} req
+   * @param {Response} res
+   * @returns {Response}
+   */
+  async acceptRequest(req, res) {
+    const {
+      query: { request_id: requestId },
+    } = req;
+
+    const parsedId = encodeURI(requestId);
+    const friend = new Friend();
+    const request = await friend.getRequestById(parsedId);
+
+    if (!request)
+      return res.status(400).send({
+        success: false,
+        error: "Friend request not found",
+      });
+
+    await friend.acceptFriendRequest(parsedId);
+
+    return res.status(200).send({
+      success: true,
+      data: null,
+    });
+  }
+
+  /**
+   * Handles rejecting a friend request
+   *
+   * @param {Request} req
+   * @param {Response} res
+   * @returns {Response}
+   */
+  async rejectRequest(req, res) {
+    const {
+      query: { request_id: requestId },
+    } = req;
+
+    const parsedId = encodeURI(requestId);
+    const friend = new Friend();
+    const request = await friend.getRequestById(parsedId);
+
+    if (!request)
+      return res.status(400).send({
+        success: false,
+        error: "Friend request not found",
+      });
+
+    await friend.rejectFriendRequest(parsedId);
+
+    return res.status(200).send({
+      success: true,
+      data: null,
     });
   }
 }

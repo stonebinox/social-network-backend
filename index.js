@@ -15,6 +15,14 @@ app.get("/users", userController.getUsers.bind(userController));
 app.get("/user", userController.getUser.bind(userController));
 
 app.post("/friend", friendsController.sendRequest.bind(friendsController));
+app.post(
+  "/friend/accept",
+  friendsController.acceptRequest.bind(friendsController)
+);
+app.post(
+  "/friend/reject",
+  friendsController.rejectRequest.bind(friendsController)
+);
 
 app.listen(port, () => {
   console.log(`server running at http://localhost:${port}`);
