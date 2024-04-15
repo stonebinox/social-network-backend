@@ -7,7 +7,7 @@ import StatusUpdatesController from "./src/controllers/status-updates-controller
 import NotificationsController from "./src/controllers/notifications-controller";
 
 const app = express();
-const port = 3000;
+const port = 3001;
 const userController = new UserController();
 const friendsController = new FriendsController();
 const statusUpdatesController = new StatusUpdatesController();
