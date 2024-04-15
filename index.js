@@ -34,6 +34,10 @@ app.post(
   "/status",
   statusUpdatesController.postStatusUpdate.bind(statusUpdatesController)
 );
+app.get(
+  "/status/user",
+  statusUpdatesController.getStatusUpdatesByUser.bind(statusUpdatesController)
+);
 
 app.listen(port, () => {
   console.log(`server running at http://localhost:${port}`);

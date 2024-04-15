@@ -79,4 +79,33 @@ export default class StatusUpdatesController {
       data: null,
     });
   }
+
+  /**
+   * Gets all status updates by a user
+   *
+   * @param {Request} req
+   * @param {Response} res
+   * @returns {Response}
+   */
+  async getStatusUpdatesByUser(req, res) {
+    const {
+      query: { user_id: userId },
+    } = req;
+
+    if (!userId)
+      return res.status(400).send({
+        success: false,
+        error: "Invalid session",
+      });
+
+    const parsedUserId = encodeURI(userId);
+
+    const statusUpdate = new StatusUpdate();
+    const statusData = await statusUpdate.getStatusByUser(parsedUserId);
+
+    return res.status(200).send({
+      success: true,
+      data: statusData,
+    });
+  }
 }
