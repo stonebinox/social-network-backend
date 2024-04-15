@@ -15,7 +15,7 @@ export default class Notification extends Base {
       FROM notifications AS n
       JOIN friends AS f ON (n.user_id = f.friend_id OR n.user_id = f.user_id)
       WHERE (f.user_id = '${userId}' OR f.friend_id = '${userId}')
-        AND f.status = '2';`
+        AND f.status = '2' AND n.user_id != '${userId}';`
     );
 
     return response;
