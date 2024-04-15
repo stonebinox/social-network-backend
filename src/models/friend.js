@@ -82,4 +82,20 @@ export default class Friend extends Base {
 
     return true;
   }
+
+  /**
+   * Gets a user's friends sorted by most recent
+   *
+   * @param {number} userId
+   * @returns {Friend[]}
+   */
+  async getFriends(userId) {
+    const connection = await this.getConnection();
+
+    const [friends] = await connection.query(
+      `SELECT * FROM friends WHERE (user_id = '${userId}' OR friend_id = '${userId}') AND status = '2' ORDER BY id DESC LIMIT 25`
+    );
+
+    return friends;
+  }
 }

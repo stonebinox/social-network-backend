@@ -4,12 +4,14 @@ import cors from "cors";
 import UserController from "./src/controllers/user-controller";
 import FriendsController from "./src/controllers/friends-controller";
 import StatusUpdatesController from "./src/controllers/status-updates-controller";
+import NotificationsController from "./src/controllers/notifications-controller";
 
 const app = express();
 const port = 3000;
 const userController = new UserController();
 const friendsController = new FriendsController();
 const statusUpdatesController = new StatusUpdatesController();
+const notificationsController = new NotificationsController();
 
 app.use(cors());
 app.post("/user", userController.createOrlogin.bind(userController));
@@ -25,6 +27,7 @@ app.post(
   "/friend/reject",
   friendsController.rejectRequest.bind(friendsController)
 );
+app.get("/friends", friendsController.getFriends.bind(friendsController));
 
 app.get(
   "/status",
@@ -37,6 +40,11 @@ app.post(
 app.get(
   "/status/user",
   statusUpdatesController.getStatusUpdatesByUser.bind(statusUpdatesController)
+);
+
+app.get(
+  "/notifications",
+  notificationsController.getNotifications.bind(notificationsController)
 );
 
 app.listen(port, () => {

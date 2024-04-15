@@ -118,4 +118,33 @@ export default class FriendsController {
       data: null,
     });
   }
+
+  /**
+   * Gets a user's friends
+   *
+   * @param {Request} req
+   * @param {Response} res
+   * @returns {Response}
+   */
+  async getFriends(req, res) {
+    const {
+      query: { user_id: userId },
+    } = req;
+
+    if (!userId)
+      return res.status(400).send({
+        success: false,
+        error: "Invalid user ID",
+      });
+
+    const parsedUserId = encodeURI(userId);
+
+    const friend = new Friend();
+    const friends = await friend.getFriends(parsedUserId);
+
+    return res.status(200).send({
+      success: true,
+      data: friends,
+    });
+  }
 }
