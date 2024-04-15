@@ -30,6 +30,10 @@ app.post(
 );
 app.get("/friends", friendsController.getFriends.bind(friendsController));
 app.get("/friendship", friendsController.getFriendship.bind(friendsController));
+app.get(
+  "/friends/pending",
+  friendsController.getPendingRequests.bind(friendsController)
+);
 
 app.get(
   "/status",

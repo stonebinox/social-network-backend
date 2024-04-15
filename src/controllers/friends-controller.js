@@ -215,4 +215,33 @@ export default class FriendsController {
       data,
     });
   }
+
+  /**
+   * Gets pending requests for a user
+   *
+   * @param {Request} req
+   * @param {Response} res
+   * @returns {Response}
+   */
+  async getPendingRequests(req, res) {
+    const {
+      query: { user_id: userId },
+    } = req;
+
+    if (!userId)
+      return res.status(400).send({
+        success: false,
+        error: "Invalid user ID",
+      });
+
+    const parsedUserId = encodeURI(userId);
+
+    const friend = new Friend();
+    const requests = await friend.getPendingRequests(parsedUserId);
+
+    return res.status(200).send({
+      success: true,
+      data: requests,
+    });
+  }
 }

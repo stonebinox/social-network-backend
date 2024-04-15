@@ -98,4 +98,20 @@ export default class Friend extends Base {
 
     return friends;
   }
+
+  /**
+   * Gets pending requests for a user
+   *
+   * @param {number} userId The user ID
+   * @returns {Friend[]}
+   */
+  async getPendingRequests(userId) {
+    const connection = await this.getConnection();
+
+    const [requests] = await connection.query(
+      `SELECT * FROM friends WHERE status = '1' AND friend_id = '${userId}' ORDER BY id DESC LIMIT 25`
+    );
+
+    return requests;
+  }
 }
