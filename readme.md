@@ -8,7 +8,7 @@
 
 ## Note
 
-- For this wor work, you'll need to have a local instance of mysql running. Be sure to run the SQL schema file in your MySQL tool to ensure a db has been created
+- For this to work, you'll need to have a local instance of mysql running. Be sure to run the SQL schema file in your MySQL tool to ensure a db has been created
 - you'll need to head to `src/models/base.js` to change the values of your database credentials
 
 Without the above, this service will not work.
