@@ -17,6 +17,7 @@ app.use(cors());
 app.post("/user", userController.createOrlogin.bind(userController));
 app.get("/users", userController.getUsers.bind(userController));
 app.get("/user", userController.getUser.bind(userController));
+app.get("/user/id", userController.getUserById.bind(userController));
 
 app.post("/friend", friendsController.sendRequest.bind(friendsController));
 app.post(

@@ -75,7 +75,7 @@ export default class UserController {
         error: "Invalid username",
       });
 
-    const parsedUsername = encodeURI(username).toLowerCase(); // basic sanotisation
+    const parsedUsername = encodeURI(username).toLowerCase(); // basic sanitisation
 
     const user = new User();
     let userData = await user.getUser(parsedUsername);
@@ -86,6 +86,34 @@ export default class UserController {
         error: "No user found",
       });
     }
+
+    return res.status(200).send({
+      success: true,
+      data: userData,
+    });
+  }
+
+  async getUserById(req, res) {
+    const {
+      query: { id },
+    } = req;
+
+    if (!id)
+      return res.status(400).send({
+        success: false,
+        error: "Invalid user ID",
+      });
+
+    const parsedUserId = encodeURI(id);
+
+    const user = new User();
+    const userData = await user.getUserById(parsedUserId);
+
+    if (!userData)
+      return res.status(400).send({
+        success: false,
+        error: "No user found",
+      });
 
     return res.status(200).send({
       success: true,
