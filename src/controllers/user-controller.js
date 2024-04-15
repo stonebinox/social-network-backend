@@ -71,7 +71,7 @@ export default class UserController {
     const users = await user.getUsers(search);
 
     return res.status(200).send({
-      success: 200,
+      success: true,
       data: users,
     });
   }
