@@ -53,9 +53,20 @@ export default class FriendsController {
       });
     }
 
-    return res.status(400).send({
-      success: false,
-      error: "Request pending confirmation",
+    const requestData = await friend.getRequestById(existingRequestId.id);
+
+    if (requestData.status === 1) {
+      return res.status(400).send({
+        success: false,
+        error: "Request pending confirmation",
+      });
+    }
+
+    await friend.sendRequest(userId, friendId);
+
+    return res.status(200).send({
+      success: true,
+      data: null,
     });
   }
 

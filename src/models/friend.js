@@ -28,7 +28,7 @@ export default class Friend extends Base {
   async getRequestByUserIds(userId, friendId) {
     const connection = await this.getConnection();
     const [response] = await connection.query(
-      `SELECT id FROM friends WHERE (user_id = '${userId}' AND friend_id = '${friendId}') OR (user_id = '${friendId}' AND friend_id = '${userId}') AND status != '0' ORDER BY id DESC LIMIT 1`
+      `SELECT id FROM friends WHERE ((user_id = '${userId}' AND friend_id = '${friendId}') OR (user_id = '${friendId}' AND friend_id = '${userId}')) AND (status = '1' OR status = '2') ORDER BY id DESC LIMIT 1`
     );
 
     if (response.length === 0) return null;
@@ -45,7 +45,7 @@ export default class Friend extends Base {
   async getRequestById(id) {
     const connection = await this.getConnection();
     const [response] = await connection.query(
-      `SELECT * FROM friends WHERE id = '${id}' AND status != '0'`
+      `SELECT * FROM friends WHERE id = '${id}' AND (status = '1' OR status = '2')`
     );
 
     if (response.length === 0) return null;
