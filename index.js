@@ -29,6 +29,7 @@ app.post(
   friendsController.rejectRequest.bind(friendsController)
 );
 app.get("/friends", friendsController.getFriends.bind(friendsController));
+app.get("/friendship", friendsController.getFriendship.bind(friendsController));
 
 app.get(
   "/status",
