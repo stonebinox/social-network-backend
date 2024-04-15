@@ -1,4 +1,5 @@
 import User from "../models/user";
+import { addslashes } from "../helpers/addslashes";
 
 export default class UserController {
   /**
@@ -48,8 +49,26 @@ export default class UserController {
    * @returns {Response}
    */
   async getUsers(req, res) {
+    const {
+      query: { search },
+    } = req;
+
+    if (!search)
+      return res.status(400).send({
+        success: false,
+        error: "Invalid parameters",
+      });
+
+    const parsedSearch = addslashes(search).trim();
+
+    if (parsedSearch === "")
+      return res.status(400).send({
+        success: false,
+        error: "Invalid search",
+      });
+
     const user = new User();
-    const users = await user.getUsers();
+    const users = await user.getUsers(search);
 
     return res.status(200).send({
       success: 200,

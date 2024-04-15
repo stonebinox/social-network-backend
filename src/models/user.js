@@ -26,12 +26,12 @@ export default class User extends Base {
     return this.getUser(username);
   }
 
-  async getUsers() {
+  async getUsers(search) {
     // typically we'd have a delimiter
     const connection = await this.getConnection();
 
     const [response] = await connection.query(
-      "SELECT * FROM users WHERE status = '1' ORDER BY id DESC LIMIT 100"
+      `SELECT * FROM users WHERE status = '1' AND username LIKE '%${search}%' ORDER BY id DESC LIMIT 100`
     );
 
     return response;
