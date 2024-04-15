@@ -3,11 +3,13 @@ import cors from "cors";
 
 import UserController from "./src/controllers/user-controller";
 import FriendsController from "./src/controllers/friends-controller";
+import StatusUpdatesController from "./src/controllers/status-updates-controller";
 
 const app = express();
 const port = 3000;
 const userController = new UserController();
 const friendsController = new FriendsController();
+const statusUpdatesController = new StatusUpdatesController();
 
 app.use(cors());
 app.post("/user", userController.createOrlogin.bind(userController));
@@ -22,6 +24,15 @@ app.post(
 app.post(
   "/friend/reject",
   friendsController.rejectRequest.bind(friendsController)
+);
+
+app.get(
+  "/status",
+  statusUpdatesController.getStatusUpdate.bind(statusUpdatesController)
+);
+app.post(
+  "/status",
+  statusUpdatesController.postStatusUpdate.bind(statusUpdatesController)
 );
 
 app.listen(port, () => {
