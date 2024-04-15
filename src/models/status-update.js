@@ -45,10 +45,12 @@ export default class StatusUpdate extends Base {
   async createStatusUpdate(userId, text) {
     const connection = await this.getConnection();
 
-    await connection.query(
+    const [response] = await connection.query(
       `INSERT INTO status_updates (user_id, created_at, description) VALUES ('${userId}', NOW(), '${text}')`
     );
 
-    return;
+    const { insertId: newStatusUpdateId } = response;
+
+    return newStatusUpdateId;
   }
 }

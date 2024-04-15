@@ -20,4 +20,22 @@ export default class Notification extends Base {
 
     return response;
   }
+
+  /**
+   * Created a notification
+   *
+   * @param {number} userId The user ID
+   * @param {string} notification The notification content
+   * @param {number} statusId The status update ID
+   * @returns
+   */
+  async createNotification(userId, notification, statusId = null) {
+    const connection = await this.getConnection();
+
+    await connection.query(
+      `INSERT INTO notifications (created_at, notification, user_id, status_id) VALUES (NOW(), '${notification}', '${userId}', '${statusId}')`
+    );
+
+    return;
+  }
 }

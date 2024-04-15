@@ -1,5 +1,7 @@
 import { addslashes } from "../helpers/addslashes";
+import Notification from "../models/notification";
 import StatusUpdate from "../models/status-update";
+import User from "../models/user";
 
 export default class StatusUpdatesController {
   /**
@@ -56,6 +58,16 @@ export default class StatusUpdatesController {
       });
 
     const parsedUserId = encodeURI(userId);
+    const user = new User();
+    const userData = await user.getUserById(parsedUserId);
+
+    if (!userData)
+      return res.status(400).send({
+        success: false,
+        error: "Invalid user",
+      });
+
+    const { username } = userData;
 
     if (!description)
       return res.status(400).send({
@@ -72,7 +84,18 @@ export default class StatusUpdatesController {
       });
 
     const statusUpdate = new StatusUpdate();
-    await statusUpdate.createStatusUpdate(parsedUserId, parsedDescription);
+    const newStatusUpdateId = await statusUpdate.createStatusUpdate(
+      parsedUserId,
+      parsedDescription
+    );
+
+    const notificationContent = `${username} updated their status`;
+    const notification = new Notification();
+    await notification.createNotification(
+      userId,
+      notificationContent,
+      newStatusUpdateId
+    );
 
     return res.status(200).send({
       success: true,
